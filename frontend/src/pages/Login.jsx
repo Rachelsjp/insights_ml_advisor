@@ -8,19 +8,17 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    // Simple validation (optional)
+    // Basic validation
     if (!email || !password) {
       alert("Please enter email and password");
       return;
     }
 
-    // ✅ SAVE LOGIN STATE
+    // Store login info (temporary frontend auth)
     localStorage.setItem("isLoggedIn", "true");
-
-    // (Optional: store email for later use)
     localStorage.setItem("userEmail", email);
 
-    // ✅ REDIRECT
+    // Navigate to dashboard
     navigate("/dashboard");
   };
 
@@ -37,6 +35,7 @@ export default function Login() {
           Sign in to your account
         </p>
 
+        {/* Email */}
         <input
           type="email"
           placeholder="you@example.com"
@@ -45,6 +44,7 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
+        {/* Password */}
         <input
           type="password"
           placeholder="password"
@@ -53,9 +53,10 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
+        {/* Button */}
         <button
           onClick={handleLogin}
-          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-lg text-white font-semibold hover:opacity-90"
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-lg text-white font-semibold hover:opacity-90 transition"
         >
           Sign In
         </button>
