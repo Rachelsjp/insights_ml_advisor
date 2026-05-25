@@ -2,10 +2,27 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Login() {
-  const navigate = useNavigate(); // ✅ IMPORTANT
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    // Simple validation (optional)
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    // ✅ SAVE LOGIN STATE
+    localStorage.setItem("isLoggedIn", "true");
+
+    // (Optional: store email for later use)
+    localStorage.setItem("userEmail", email);
+
+    // ✅ REDIRECT
+    navigate("/dashboard");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 flex items-center justify-center">
@@ -15,6 +32,7 @@ export default function Login() {
         <h2 className="text-2xl font-bold text-center text-white mb-2">
           ML Advisor
         </h2>
+
         <p className="text-center text-gray-400 mb-6">
           Sign in to your account
         </p>
@@ -36,8 +54,8 @@ export default function Login() {
         />
 
         <button
-          onClick={() => navigate("/dashboard")}  // ✅ NAVIGATION ADDED
-          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-lg text-white font-semibold"
+          onClick={handleLogin}
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-lg text-white font-semibold hover:opacity-90"
         >
           Sign In
         </button>

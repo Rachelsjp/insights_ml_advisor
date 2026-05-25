@@ -1,37 +1,51 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Layout({ children }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear fake login (for now)
+    localStorage.removeItem("isLoggedIn");
+
+    // Redirect to login
+    navigate("/");
+  };
+
   return (
-    <div className="flex min-h-screen bg-black text-white">
-
+    <div className="flex">
+      
       {/* Sidebar */}
-      <div className="w-64 bg-gray-900 p-5 flex flex-col">
+      <div className="w-60 bg-gray-900 min-h-screen p-4 text-white">
         
-        <h1 className="text-xl font-bold mb-8 text-purple-400">
-          ✨ ML Advisor
-        </h1>
+        <h2 className="text-xl font-bold mb-6">✨ ML Advisor</h2>
 
-        <nav className="flex flex-col gap-4">
-          <Link to="/dashboard" className="hover:text-purple-400">
-            📊 Dashboard
-          </Link>
+        <div
+          className="mb-4 cursor-pointer"
+          onClick={() => navigate("/dashboard")}
+        >
+          📊 Dashboard
+        </div>
 
-          <Link to="/chat" className="hover:text-purple-400">
-            💬 AI Assistant
-          </Link>
+        <div
+          className="mb-4 cursor-pointer"
+          onClick={() => navigate("/chat")}
+        >
+          💬 AI Assistant
+        </div>
 
-          <Link to="/" className="mt-auto text-red-400">
-            🚪 Logout
-          </Link>
-        </nav>
+        <div
+          className="text-red-400 cursor-pointer"
+          onClick={handleLogout}
+        >
+          🚪 Logout
+        </div>
 
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 bg-black min-h-screen">
         {children}
       </div>
-
     </div>
   );
 }
