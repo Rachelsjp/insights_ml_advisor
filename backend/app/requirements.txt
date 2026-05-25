@@ -1,0 +1,11 @@
+langchain
+langchain-community
+langchain-openai
+sentence-transformers
+chromadb
+docx2txt
+streamlit
+google-search-results
+python-dotenv
+tiktoken
+langchain-text-splitters

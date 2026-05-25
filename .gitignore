@@ -1,0 +1,30 @@
+# Node modules (frontend)
+node_modules/
+frontend/node_modules/
+
+# Build files
+dist/
+frontend/dist/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+.env
+
+# Chroma DB (VERY IMPORTANT to ignore)
+chroma_db/
+backend/chroma_db/
+app/chroma_db/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
