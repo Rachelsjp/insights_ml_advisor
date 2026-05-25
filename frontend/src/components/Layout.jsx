@@ -3,11 +3,18 @@ import { useNavigate } from "react-router-dom";
 export default function Layout({ children }) {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Clear fake login (for now)
-    localStorage.removeItem("isLoggedIn");
+  // Get email from localStorage
+  const userEmail = localStorage.getItem("userEmail");
 
-    // Redirect to login
+  // Extract name from email (rachel@gmail.com → Rachel)
+  const userName = userEmail
+    ? userEmail.split("@")[0].charAt(0).toUpperCase() +
+      userEmail.split("@")[0].slice(1)
+    : "User";
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail"); // optional cleanup
     navigate("/");
   };
 
@@ -17,24 +24,31 @@ export default function Layout({ children }) {
       {/* Sidebar */}
       <div className="w-60 bg-gray-900 min-h-screen p-4 text-white">
         
-        <h2 className="text-xl font-bold mb-6">✨ ML Advisor</h2>
+        <h2 className="text-xl font-bold mb-1">✨ ML Advisor</h2>
 
+        {/* ✅ Welcome message */}
+        <p className="text-purple-400 text-sm mb-6">
+          Welcome, {userName} 👋
+        </p>
+
+        {/* Navigation */}
         <div
-          className="mb-4 cursor-pointer"
+          className="mb-4 cursor-pointer hover:text-purple-400"
           onClick={() => navigate("/dashboard")}
         >
           📊 Dashboard
         </div>
 
         <div
-          className="mb-4 cursor-pointer"
+          className="mb-4 cursor-pointer hover:text-purple-400"
           onClick={() => navigate("/chat")}
         >
           💬 AI Assistant
         </div>
 
+        {/* Logout */}
         <div
-          className="text-red-400 cursor-pointer"
+          className="text-red-400 cursor-pointer hover:text-red-300"
           onClick={handleLogout}
         >
           🚪 Logout
