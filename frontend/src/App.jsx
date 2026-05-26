@@ -1,40 +1,17 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 
-// ✅ Check login state
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-
 export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-
-        {/* Login Page */}
         <Route path="/" element={<Login />} />
-
-        {/* Protected Dashboard */}
-        <Route
-          path="/dashboard"
-          element={
-            isLoggedIn ? <Dashboard /> : <Navigate to="/" />
-          }
-        />
-
-        {/* Protected Chat */}
-        <Route
-          path="/chat"
-          element={
-            isLoggedIn ? <Chat /> : <Navigate to="/" />
-          }
-        />
-
-        {/* Default Redirect */}
-        <Route path="*" element={<Navigate to="/" />} />
-
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
