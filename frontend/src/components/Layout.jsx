@@ -13,8 +13,13 @@ export default function Layout({ children }) {
     : "User";
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userEmail"); // optional cleanup
+    // ✅ Remove JWT token (IMPORTANT)
+    localStorage.removeItem("token");
+
+    // Cleanup user info
+    localStorage.removeItem("userEmail");
+
+    // Redirect to login
     navigate("/");
   };
 
@@ -26,7 +31,7 @@ export default function Layout({ children }) {
         
         <h2 className="text-xl font-bold mb-1">✨ ML Advisor</h2>
 
-        {/* ✅ Welcome message */}
+        {/* Welcome */}
         <p className="text-purple-400 text-sm mb-6">
           Welcome, {userName} 👋
         </p>

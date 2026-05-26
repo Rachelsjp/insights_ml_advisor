@@ -1,32 +1,46 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    // Basic validation
-    if (!email || !password) {
-      alert("Please enter email and password");
-      return;
+  const handleLogin = async () => {
+    try {
+      const formData = new URLSearchParams();
+      formData.append("username", email);
+      formData.append("password", password);
+
+      const res = await axios.post(
+        "http://127.0.0.1:8000/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      // ✅ Save token
+      localStorage.setItem("token", res.data.access_token);
+      localStorage.setItem("userEmail", email);
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      console.error(err);
+      setError("Invalid login credentials");
     }
-
-    // Store login info (temporary frontend auth)
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userEmail", email);
-
-    // Navigate to dashboard
-    navigate("/dashboard");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 flex items-center justify-center">
-      
       <div className="bg-gray-900/80 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-[400px]">
-        
+
         <h2 className="text-2xl font-bold text-center text-white mb-2">
           ML Advisor
         </h2>
@@ -35,7 +49,10 @@ export default function Login() {
           Sign in to your account
         </p>
 
-        {/* Email */}
+        {error && (
+          <p className="text-red-400 text-center mb-3">{error}</p>
+        )}
+
         <input
           type="email"
           placeholder="you@example.com"
@@ -44,7 +61,6 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* Password */}
         <input
           type="password"
           placeholder="password"
@@ -53,10 +69,9 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* Button */}
         <button
           onClick={handleLogin}
-          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-lg text-white font-semibold hover:opacity-90 transition"
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-lg text-white font-semibold"
         >
           Sign In
         </button>
